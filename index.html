@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nur-u Yıldızname | Ebced ile Yıldızname Burcu, 12 Burç & Virdler Külliyatı</title>
+<title>Nur-u Yıldızname | Gerçek Ebced ile Yıldızname Burcu & 12 Burç Külliyatı</title>
 <link href="https://googleapis.com" rel="stylesheet">
 <style>
 :root{--bg:#071912;--card:#0d261c;--gold:#d4af37;--light:#f3e5ab;--text:#f0f4f2;--muted:#9eb3a8;--border:rgba(212,175,55,0.35)}
@@ -18,7 +18,7 @@ input[name="ytab"]{display:none}
 .wrap{display:none;max-width:1120px;margin:25px auto;padding:0 15px 60px}
 #yt1:checked~#ysec1,#yt2:checked~#ysec2,#yt3:checked~#ysec3{display:block}
 .calc-box{background:var(--card);border:1px solid var(--gold);border-radius:16px;padding:24px;margin-bottom:24px}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:16px 0}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:16px 0}
 .field label{display:block;font-size:13px;color:var(--gold);font-weight:600;margin-bottom:6px}
 .inp{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);background:#05130e;color:#fff;font-size:15px;outline:none}
 .inp:focus{border-color:var(--gold)}
@@ -44,7 +44,7 @@ input[name="ytab"]{display:none}
 <header>
   <div class="logo">علم النجوم والأبراج</div>
   <h2 style="color:var(--light)">NUR-U YILDIZNAME • BURÇLAR, VİRDLER & MUHABBET KÜLLİYATI</h2>
-  <p style="color:var(--muted);font-size:13px">İsim, Anne İsmi, Doğum Yeri & Saati ile Yıldızname Hesaplama • 12 Burç Analizi • Uyumlu Virdler & Aşk/Evlilik Zikirleri</p>
+  <p style="color:var(--muted);font-size:13px">Gerçek Arapça İmla & Ebced-i Kebir Usulüyle Yıldızname Hesaplama • 12 Burç Analizi • Uyumlu Virdler & Zikirler</p>
 </header>
 
 <div class="nav">
@@ -55,13 +55,14 @@ input[name="ytab"]{display:none}
 
 <div id="ysec1" class="wrap">
   <div class="calc-box">
-    <h2 style="color:var(--gold);margin-bottom:6px">Kişisel Yıldızname & Ebced Analizi</h2>
-    <p style="color:var(--muted);font-size:14px">Klasik Yıldızname usulüne göre kendi adınız, anne adınız, doğum yeriniz ve doğum saatinizin Ebced-i Kebir toplamı 12 burç devrine bölünerek gerçek yıldızınız ve size özel uyumlu virdiniz hesaplanır.</p>
+    <h2 style="color:var(--gold);margin-bottom:6px">Kişisel Yıldızname & Ebced-i Kebir Analizi</h2>
+    <p style="color:var(--muted);font-size:14px">Klasik Yıldızname usulüne göre kendi adınız ve anne adınızın Arapça harf karşılığı (Ebced-i Kebir) toplamı 12 burç devrine bölünerek ana yıldızname burcunuz; doğum yılınız ve saatinize göre ise devr-i felek ve yükselen yıldızınız hesaplanır.</p>
     <div class="form-grid">
-      <div class="field"><label>Adınız (Örn: Ahmet)</label><input class="inp" id="uName" placeholder="Adınızı yazın..."></div>
-      <div class="field"><label>Anne Adınız (Örn: Fatma)</label><input class="inp" id="mName" placeholder="Anne adını yazın..."></div>
-      <div class="field"><label>Doğum Yeriniz (Örn: İstanbul)</label><input class="inp" id="bPlace" placeholder="Doğum şehrini yazın..."></div>
-      <div class="field"><label>Doğum Saatiniz</label><input class="inp" id="bTime" type="time" value="12:00"></div>
+      <div class="field"><label>Adınız (Örn: Bilal)</label><input class="inp" id="uName" placeholder="Adınızı yazın..."></div>
+      <div class="field"><label>Anne Adınız (Örn: Hatice)</label><input class="inp" id="mName" placeholder="Anne adını yazın..."></div>
+      <div class="field"><label>Doğum Yeriniz (Örn: Düzce)</label><input class="inp" id="bPlace" placeholder="Doğum şehrini yazın..."></div>
+      <div class="field"><label>Doğum Yılınız (Örn: 1995)</label><input class="inp" id="bYear" type="number" min="1930" max="2026" placeholder="1995"></div>
+      <div class="field"><label>Doğum Saatiniz</label><input class="inp" id="bTime" type="time" value="09:00"></div>
     </div>
     <button class="btn" onclick="calcYildizname()">🔮 Yıldızname Burcumu, Yükselenimi ve Özel Virdimi Göster</button>
     <div id="resArea" class="res-box"></div>
@@ -224,17 +225,34 @@ var VIRD_LIST = new Array(
 );
 
 function ebcedHesapla(metin){
-  var tablo = {
-    'a':1,'e':1,'ı':1,'i':1,'u':1,'ü':1,'o':1,'ö':1,
-    'b':2,'p':2,'c':3,'ç':3,'d':4,'h':5,'ğ':1000,'v':6,'w':6,
-    'z':7,'j':7,'t':9,'y':10,'k':20,'g':20,'l':30,'m':40,'n':50,
-    's':60,'ş':300,'f':80,'r':200,'x':600
+  var ozelIsimler = {
+    "bilal":63, "hatice":622, "ahmet":53, "mehmet":92, "muhammed":92, "mustafa":229,
+    "ali":110, "ayse":386, "ayşe":386, "fatma":135, "zeynep":69, "emine":106,
+    "ibrahim":259, "ismail":211, "yusuf":156, "omer":310, "ömer":310, "osman":661,
+    "hasan":118, "huseyin":128, "hüseyin":128, "meryem":290, "havva":15, "adem":45,
+    "elif":111, "esra":262, "merve":251, "busra":513, "büşra":513, "kubra":233, "kübra":233,
+    "suleyman":191, "süleyman":191, "davud":21, "musa":116, "isa":140, "nuh":64,
+    "salih":129, "yakup":182, "kenan":171, "kemal":91, "cemal":74, "halil":670,
+    "kadriye":329, "hayriye":830, "sukriye":540, "şükriye":540, "fethiye":508, "asiye":146,
+    "hacer":211, "sara":506, "zeliha":62, "leyla":71, "sevda":71, "nur":256, "nuran":307
   };
-  var temiz = metin.toLocaleLowerCase("tr").replace(/[^a-zçğıöşü]/g, "");
+  var temiz = metin.toLocaleLowerCase("tr").trim();
+  if(ozelIsimler[temiz]) return ozelIsimler[temiz];
+
+  var arapcaHarf = {
+    'a':1, 'e':5, 'ı':10, 'i':10, 'o':6, 'ö':6, 'u':6, 'ü':6,
+    'b':2, 'p':2, 'c':3, 'ç':3, 'd':4, 'h':5, 'ğ':1000, 'v':6, 'w':6,
+    'z':7, 'j':7, 't':9, 'y':10, 'k':20, 'g':20, 'l':30, 'm':40,
+    'n':50, 's':60, 'ş':300, 'f':80, 'r':200, 'x':600
+  };
+  var saf = temiz.replace(/[^a-zçğıöşü]/g, "");
   var toplam = 0;
-  for(var i=0; i<temiz.length; i++){
-    var harf = temiz.charAt(i);
-    if(tablo[harf]) toplam += tablo[harf];
+  for(var i=0; i<saf.length; i++){
+    var ch = saf.charAt(i);
+    if(i > 0 && (ch==='a'||ch==='e'||ch==='ı'||ch==='i'||ch==='o'||ch==='ö'||ch==='u'||ch==='ü') && i < saf.length - 1){
+      continue;
+    }
+    if(arapcaHarf[ch]) toplam += arapcaHarf[ch];
   }
   return toplam;
 }
@@ -261,6 +279,7 @@ function calcYildizname(){
   var m = document.getElementById("mName").value.trim();
   var p = document.getElementById("bPlace").value.trim();
   var t = document.getElementById("bTime").value || "12:00";
+  var y = Number(document.getElementById("bYear").value) || 0;
 
   if(!u || !m){
     alert("Lütfen en azından kendi adınızı ve anne adınızı giriniz.");
@@ -269,17 +288,37 @@ function calcYildizname(){
 
   var eKisi = ebcedHesapla(u);
   var eAnne = ebcedHesapla(m);
-  var eYer = ebcedHesapla(p);
-  var saat = Number(t.split(":").at(0)) || 0;
-  var dakika = Number(t.split(":").at(1)) || 0;
-
-  var toplamEbced = eKisi + eAnne + eYer + saat + dakika;
+  var toplamEbced = eKisi + eAnne;
   var kalan = toplamEbced % 12;
   if(kalan === 0) kalan = 12;
 
+  var saat = Number(t.split(":").at(0)) || 0;
   var anaBurc = BURCLAR.at(kalan - 1);
   var yukselenIdx = (kalan - 1 + Math.floor(saat / 2)) % 12;
   var yukselenBurc = BURCLAR.at(yukselenIdx);
+
+  var devirList = new Array(
+    "Maymun Devri (Keskin Zeka & Hızlı Çözüm Yılı)",
+    "Horoz Devri (İtibar, Uyanış & Çalışkanlık Yılı)",
+    "Köpek Devri (Sadakat, Korunma & Güven Yılı)",
+    "Domuz Devri (Bolluk, Cömertlik & Nimet Yılı)",
+    "Fare Devri (Bereket, Ticaret & Birikim Yılı)",
+    "Öküz Devri (Sabır, Emek & Mülk Edinme Yılı)",
+    "Pars Devri (Cesaret, Liderlik & Atılım Yılı)",
+    "Tavşan Devri (Huzur, Zarafet & Şifa Yılı)",
+    "Ejderha Devri (Yüceliş, Güç & Büyük Şans Yılı)",
+    "Yılan Devri (Hikmet, Sezgi & Derinlik Yılı)",
+    "At Devri (Özgürlük, Yolculuk & Zafer Yılı)",
+    "Koyun Devri (Sanat, Uyum & Aile Saadeti Yılı)"
+  );
+  var yilBilgi = "";
+  var yilTag = "";
+  if(y >= 1930 && y <= 2026){
+    var yas = 2026 - y;
+    var devir = devirList.at(y % 12);
+    yilTag = '<span class="tag">Doğum Yılı: '+y+' (Yaş: '+yas+' • '+devir+')</span>';
+    yilBilgi = ' <strong>'+y+' doğum yılınız</strong> itibarıyla <strong>'+devir+'</strong> tesirindesiniz. Yaş döngünüze ('+yas+' yaş) göre önünüzdeki dönem özellikle '+(yas % 2 === 0 ? "maddi istikrar, ev/mülk ve kalıcı kararlar" : "manevi yükseliş, yeni başlangıçlar ve hayırlı kapıların açılması")+' açısından yüksek bereket taşımaktadır.';
+  }
 
   var uyumluVird = VIRD_LIST.at(0);
   if(anaBurc.el.indexOf("Toprak") !== -1) uyumluVird = VIRD_LIST.at(1);
@@ -291,9 +330,10 @@ function calcYildizname(){
   res.innerHTML =
     '<h2 style="color:var(--gold);margin-bottom:6px">🔮 '+u.toLocaleUpperCase("tr")+' (Anne: '+m.toLocaleUpperCase("tr")+') Yıldızname Raporu</h2>'+
     '<div class="meta-tags">'+
-      '<span class="tag">Toplam Ebced: '+toplamEbced+' (Kalan: '+kalan+')</span>'+
+      '<span class="tag">'+u+': '+eKisi+' + '+m+': '+eAnne+' = Toplam Ebced: '+toplamEbced+' (12\'ye Bölüm Kalanı: '+kalan+')</span>'+
       '<span class="tag">Ana Yıldızname Burcu: '+anaBurc.name+'</span>'+
       '<span class="tag">Doğum Saati Yükseleni: '+yukselenBurc.name+'</span>'+
+      yilTag+
       '<span class="tag">Tabiat / Element: '+anaBurc.el+'</span>'+
       '<span class="tag">Hakim Yıldız: '+anaBurc.gezegen+'</span>'+
       '<span class="tag">Uğurlu Gün & Taş: '+anaBurc.gun+' • '+anaBurc.tas+'</span>'+
@@ -303,7 +343,102 @@ function calcYildizname(){
     '<div class="detail-block"><strong>2. Rızık, İş ve Bereket Kapısı:</strong> '+anaBurc.rizik+'</div>'+
     '<div class="detail-block"><strong>3. Aşk, Evlilik ve Aile Uyumu:</strong> '+anaBurc.ask+'</div>'+
     '<div class="detail-block"><strong>4. Sağlık ve Hassas Noktalar:</strong> '+anaBurc.saglik+'</div>'+
-    '<div class="detail-block"><strong>5. Manevi Sırlar & Doğum Saati ('+t+' - '+(p||"Belirtilmedi")+') Etkisi:</strong> '+anaBurc.manevi+' Doğum saatiniz ('+t+') itibarıyla yükselen yıldızınız <strong>'+yukselenBurc.name+'</strong> tesirindedir.</div>'+
+    '<div class="detail-block"><strong>5. Manevi Sırlar, Doğum Yılı & Saati ('+t+' - '+(p||"Belirtilmedi")+') Etkisi:</strong> '+anaBurc.manevi+' Doğum saatiniz ('+t+') itibarıyla yükselen yıldızınız <strong>'+yukselenBurc.name+'</strong> tesirindedir.'+yilBilgi+'</div>'+
+    '<div class="detail-block" style="border-color:#f3e5ab"><strong>6. Tabiatınıza Özel Uyumlu Vird & Muhabbet Ayeti:</strong> '+uyumluVird.vird+' — <em>'+uyumluVird.ok+'</em></div>'+
+    '<button class="btn" style="margin-top:16px" onclick="copyText(this,\'resArea\')">📋 Yıldızname Analizimi Kopyala</button>';
+}
+
+document.getElementById("allBurcGrid").innerHTML = BURCLAR.map(function(b){
+  return '<div class="card">'+
+    '<div>'+
+      '<span class="tag">'+b.no+'. Burç • '+b.el+' • '+b.gezegen+'</span>'+
+function copyText(btn, id){
+  var area = document.getElementById(id);
+  var txt = area.innerText.replace("📋 Yıldızname Analizimi Kopyala", "").trim();
+  if(navigator.clipboard) navigator.clipboard.writeText(txt);
+  var old = btn.innerText; btn.innerText = "✓ Kopyalandı!";
+  setTimeout(function(){ btn.innerText = old; }, 2000);
+}
+
+function copyCard(btn){
+  var card = btn.closest(".card");
+  var lines = new Array();
+  card.querySelectorAll(".tag, h3, .ar, .detail-block").forEach(function(el){ lines.push(el.innerText); });
+  if(navigator.clipboard) navigator.clipboard.writeText(lines.join("\n\n"));
+  var old = btn.innerText; btn.innerText = "✓ Vird Kopyalandı!";
+  setTimeout(function(){ btn.innerText = old; }, 2000);
+}
+
+function calcYildizname(){
+  var u = document.getElementById("uName").value.trim();
+  var m = document.getElementById("mName").value.trim();
+  var p = document.getElementById("bPlace").value.trim();
+  var t = document.getElementById("bTime").value || "12:00";
+  var y = Number(document.getElementById("bYear").value) || 0;
+
+  if(!u || !m){
+    alert("Lütfen en azından kendi adınızı ve anne adınızı giriniz.");
+    return;
+  }
+
+  var eKisi = ebcedHesapla(u);
+  var eAnne = ebcedHesapla(m);
+  var toplamEbced = eKisi + eAnne;
+  var kalan = toplamEbced % 12;
+  if(kalan === 0) kalan = 12;
+
+  var saat = Number(t.split(":").at(0)) || 0;
+  var anaBurc = BURCLAR.at(kalan - 1);
+  var yukselenIdx = (kalan - 1 + Math.floor(saat / 2)) % 12;
+  var yukselenBurc = BURCLAR.at(yukselenIdx);
+
+  var devirList = new Array(
+    "Maymun Devri (Keskin Zeka & Hızlı Çözüm Yılı)",
+    "Horoz Devri (İtibar, Uyanış & Çalışkanlık Yılı)",
+    "Köpek Devri (Sadakat, Korunma & Güven Yılı)",
+    "Domuz Devri (Bolluk, Cömertlik & Nimet Yılı)",
+    "Fare Devri (Bereket, Ticaret & Birikim Yılı)",
+    "Öküz Devri (Sabır, Emek & Mülk Edinme Yılı)",
+    "Pars Devri (Cesaret, Liderlik & Atılım Yılı)",
+    "Tavşan Devri (Huzur, Zarafet & Şifa Yılı)",
+    "Ejderha Devri (Yüceliş, Güç & Büyük Şans Yılı)",
+    "Yılan Devri (Hikmet, Sezgi & Derinlik Yılı)",
+    "At Devri (Özgürlük, Yolculuk & Zafer Yılı)",
+    "Koyun Devri (Sanat, Uyum & Aile Saadeti Yılı)"
+  );
+  var yilBilgi = "";
+  var yilTag = "";
+  if(y >= 1930 && y <= 2026){
+    var yas = 2026 - y;
+    var devir = devirList.at(y % 12);
+    yilTag = '<span class="tag">Doğum Yılı: '+y+' (Yaş: '+yas+' • '+devir+')</span>';
+    yilBilgi = ' <strong>'+y+' doğum yılınız</strong> itibarıyla <strong>'+devir+'</strong> tesirindesiniz. Yaş döngünüze ('+yas+' yaş) göre önünüzdeki dönem özellikle '+(yas % 2 === 0 ? "maddi istikrar, ev/mülk ve kalıcı kararlar" : "manevi yükseliş, yeni başlangıçlar ve hayırlı kapıların açılması")+' açısından yüksek bereket taşımaktadır.';
+  }
+
+  var uyumluVird = VIRD_LIST.at(0);
+  if(anaBurc.el.indexOf("Toprak") !== -1) uyumluVird = VIRD_LIST.at(1);
+  else if(anaBurc.el.indexOf("Hava") !== -1) uyumluVird = VIRD_LIST.at(2);
+  else if(anaBurc.el.indexOf("Su") !== -1) uyumluVird = VIRD_LIST.at(3);
+
+  var res = document.getElementById("resArea");
+  res.style.display = "block";
+  res.innerHTML =
+    '<h2 style="color:var(--gold);margin-bottom:6px">🔮 '+u.toLocaleUpperCase("tr")+' (Anne: '+m.toLocaleUpperCase("tr")+') Yıldızname Raporu</h2>'+
+    '<div class="meta-tags">'+
+      '<span class="tag">'+u+': '+eKisi+' + '+m+': '+eAnne+' = Toplam Ebced: '+toplamEbced+' (Kalan: '+kalan+')</span>'+
+      '<span class="tag">Ana Yıldızname Burcu: '+anaBurc.name+'</span>'+
+      '<span class="tag">Doğum Saati Yükseleni: '+yukselenBurc.name+'</span>'+
+      yilTag+
+      '<span class="tag">Tabiat / Element: '+anaBurc.el+'</span>'+
+      '<span class="tag">Hakim Yıldız: '+anaBurc.gezegen+'</span>'+
+      '<span class="tag">Uğurlu Gün & Taş: '+anaBurc.gun+' • '+anaBurc.tas+'</span>'+
+      '<span class="tag">Özel Esma Virdi: '+anaBurc.esma+'</span>'+
+    '</div>'+
+    '<div class="detail-block"><strong>1. Karakter ve Mizaç Analizi:</strong> '+anaBurc.karakter+'</div>'+
+    '<div class="detail-block"><strong>2. Rızık, İş ve Bereket Kapısı:</strong> '+anaBurc.rizik+'</div>'+
+    '<div class="detail-block"><strong>3. Aşk, Evlilik ve Aile Uyumu:</strong> '+anaBurc.ask+'</div>'+
+    '<div class="detail-block"><strong>4. Sağlık ve Hassas Noktalar:</strong> '+anaBurc.saglik+'</div>'+
+    '<div class="detail-block"><strong>5. Manevi Sırlar, Doğum Yılı & Saati ('+t+' - '+(p||"Belirtilmedi")+') Etkisi:</strong> '+anaBurc.manevi+' Doğum saatiniz ('+t+') itibarıyla yükselen yıldızınız <strong>'+yukselenBurc.name+'</strong> tesirindedir.'+yilBilgi+'</div>'+
     '<div class="detail-block" style="border-color:#f3e5ab"><strong>6. Tabiatınıza Özel Uyumlu Vird & Muhabbet Ayeti:</strong> '+uyumluVird.vird+' — <em>'+uyumluVird.ok+'</em></div>'+
     '<button class="btn" style="margin-top:16px" onclick="copyText(this,\'resArea\')">📋 Yıldızname Analizimi Kopyala</button>';
 }
